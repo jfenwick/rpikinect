@@ -13,7 +13,7 @@ case "$1" in
   echo "created screen?"
   ;;
 stop)
-  exec forever stop --sourceDir=/home/pi/web server.js
+  #exec forever stop --sourceDir=/home/pi/web server.js
   ;;
 *)
   echo "Usage: /etc/init.d/nodeup {start|stop}"
