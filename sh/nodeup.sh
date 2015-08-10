@@ -6,11 +6,9 @@ export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
 
 case "$1" in
   start)
-  echo "Start screen"
-  #exec forever start --sourceDir=/home/pi/web -p /home/pi/web/forever server.js
-  su pi -c "screen -dmS web forever --sourceDir=/home/pi/web -p /home/pi/web/forever server.js"
-  #su pi -c "screen -dmS web"
-  echo "created screen?"
+  su pi -c "screen -dmS web"
+  su pi -c "screen -S web -X stuff 'cd /home/pi/web'"
+  su pi -c "screen -S web -X stuff 'node server.js'"
   ;;
 stop)
   #exec forever stop --sourceDir=/home/pi/web server.js
