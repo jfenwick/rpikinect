@@ -8,6 +8,7 @@ import OSC
 import json
 import socket
 import sys
+import logging
 
 class Blob:
     def __init__(self, avgx, avgy, avgz):
