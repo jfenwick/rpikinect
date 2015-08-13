@@ -8,6 +8,7 @@ import OSC
 import json
 import socket
 import sys
+import time
 
 class Blob:
     def __init__(self, avgx, avgy, avgz):
@@ -66,6 +67,7 @@ def get_ip():
 
 
 if __name__ == "__main__":
+    t0 = time.time()
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     ip = get_ip()
     c = OSC.OSCClient()
@@ -76,6 +78,17 @@ if __name__ == "__main__":
         if ip == '':
             ip = get_ip()
         
+        t = time.time() - t0
+        if t > 1:
+            t0 = time.time()
+            oscmsg = OSC.OSCMessage()
+            oscmsg.setAddress("/heartbeat")
+            oscmsg.append(ip)
+            try:
+                c.sendtobroadcast(oscmsg, ('192.168.1.255', 7400))
+            except OSC.OSCClientError:
+                print 'Failed to send packet'
+
         # if ip is not set, try to set it here, otherwise continue
         # all that ip code should probably live here
         iFrame = iFrame + 1
