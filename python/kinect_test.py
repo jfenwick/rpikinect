@@ -8,7 +8,6 @@ import OSC
 import json
 import socket
 import sys
-import logging
 
 class Blob:
     def __init__(self, avgx, avgy, avgz):
@@ -56,16 +55,29 @@ min_area = 4000
 bdelta = 50
 blobs = {}
 
+def get_ip():
+    ip = ''
+    try:
+        s.connect(('8.8.8.8', 0))  # connecting to a UDP address doesn't send packets
+        ip = s.getsockname()[0]
+    except socket.error as e:
+        print "socket.error({0}): {1}".format(e.errno, e.strerror)
+    return ip
+
+
 if __name__ == "__main__":
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(('8.8.8.8', 0))  # connecting to a UDP address doesn't send packets
-    ip = s.getsockname()[0]
-    #ip = socket.gethostbyname(socket.gethostname())
+    ip = get_ip()
     c = OSC.OSCClient()
     #c.connect(('192.168.1.129', 7400))   # connect to Max
     #c.connect(('192.168.1.255', 7400))   # connect to Max
     #c.connect(('255.255.255.255', 7400))   # connect to Max
     while 1:
+        if ip == '':
+            ip = get_ip()
+        
+        # if ip is not set, try to set it here, otherwise continue
+        # all that ip code should probably live here
         iFrame = iFrame + 1
         #get a frame from RGB camera
         #frame = get_video()
