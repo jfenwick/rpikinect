@@ -55,6 +55,7 @@ threshold = 50
 min_area = 4000
 bdelta = 50
 blobs = {}
+broadcast = ''
 
 def get_ip():
     ip = ''
@@ -85,7 +86,11 @@ if __name__ == "__main__":
             oscmsg.setAddress("/heartbeat")
             oscmsg.append(ip)
             try:
-                c.sendtobroadcast(oscmsg, ('192.168.1.255', 7400))
+                ipSplit = ip.split('.')
+                ipSplit.pop()
+                subnet = '.'.join(ipSplit)
+                broadcast = subnet + '.255'
+                c.sendtobroadcast(oscmsg, (broadcast, 7400))
             except OSC.OSCClientError:
                 print 'Failed to send packet'
 
@@ -162,7 +167,21 @@ if __name__ == "__main__":
             new_blobs[new_id].w = w
             new_blobs[new_id].h = h
             #print depth_o.shape
-            new_blobs[new_id].z = depth_o[cy][cx]
+            clipped_z = depth_o[cy][cx]
+            if float(clipped_z) > float(threshold):
+                clipped_z = float(threshold)
+             
+            if float(clipped_z) < float(current_depth):
+                clipped_z = float(current_depth)
+            #print current_depth
+            #print threshold
+            #print clipped_z
+            #print "poop"
+            #blob_z_dist_from_min = (float(depth_o[cy][cx]) - current_depth)
+            #blob_z_range = (float(current_depth) + float(threshold)) - current_depth
+            #blob_z_scaled = (blob_z_dist_from_min / blob_z_range)
+            #new_blobs[new_id].z = blob_z_scaled
+            new_blobs[new_id].z = float(depth_o[cy][cx]) / 255.0
 
         blobs = new_blobs
 
@@ -175,10 +194,10 @@ if __name__ == "__main__":
                 oscmsg.append(float(blob.y) / 480.0)
                 oscmsg.append(float(blob.w) / 640.0)
                 oscmsg.append(float(blob.h) / 480.0)
-                oscmsg.append(blob.z)
+		oscmsg.append(float(blob.z))  
                 oscmsg.append(ip)
                 try:
-                    c.sendtobroadcast(oscmsg, ('192.168.1.255', 7400))
+                    c.sendtobroadcast(oscmsg, (broadcast, 7400))
                 except OSC.OSCClientError:
                     print 'Failed to send packet'
 
