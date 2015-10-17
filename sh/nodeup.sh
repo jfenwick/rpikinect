@@ -7,7 +7,7 @@ export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
 case "$1" in
   start)
   su pi -c "screen -dmS web"
-  su pi -c "screen -S web -X stuff 'cd /home/pi/web'"
+  su pi -c "screen -S web -X stuff 'cd /home/pi/rpikinect/node'"
   su pi -c "screen -S web -X stuff 'node server.js'"
   ;;
 stop)
