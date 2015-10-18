@@ -228,7 +228,7 @@ if __name__ == "__main__":
             cv.CreateTrackbar('min_area',  'Depth', min_area, 50000, change_min_area)
             cv.CreateTrackbar('blob_delta','Depth', bdelta, 100, change_bdelta)
 
-        cv2.imwrite('/home/pi/web/public/images/foo.png', depth)
+        cv2.imwrite('/home/pi/rpikinect/node/public/images/foo.png', depth)
 
         # quit program when 'esc' key is pressed
         k = cv2.waitKey(5) & 0xFF
