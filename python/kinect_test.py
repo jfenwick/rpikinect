@@ -199,7 +199,7 @@ if __name__ == "__main__":
                 oscmsg.append(float(blob.y) / 480.0)
                 oscmsg.append(float(blob.w) / 640.0)
                 oscmsg.append(float(blob.h) / 480.0)
-		oscmsg.append(float(blob.z))  
+		        oscmsg.append(float(blob.z))  
                 oscmsg.append(ip)
                 try:
                     c.sendtobroadcast(oscmsg, (broadcast, 7400))
