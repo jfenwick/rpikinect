@@ -60,8 +60,8 @@ broadcast = ''
 def get_ip():
     ip = ''
     try:
-        s.connect(('8.8.8.8', 0))  # connecting to a UDP address doesn't send packets
-        ip = s.getsockname()[0]
+        sock.connect(('8.8.8.8', 0))  # connecting to a UDP address doesn't send packets
+        ip = sock.getsockname()[0]
     except socket.error as e:
         print "socket.error({0}): {1}".format(e.errno, e.strerror)
     return ip
@@ -69,9 +69,9 @@ def get_ip():
 
 if __name__ == "__main__":
     t0 = time.time()
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     ip = get_ip()
-    c = OSC.OSCClient()
+    client = OSC.OSCClient()
     #c.connect(('192.168.1.129', 7400))   # connect to Max
     #c.connect(('192.168.1.255', 7400))   # connect to Max
     #c.connect(('255.255.255.255', 7400))   # connect to Max
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 ipSplit.pop()
                 subnet = '.'.join(ipSplit)
                 broadcast = subnet + '.255'
-                c.sendtobroadcast(oscmsg, (broadcast, 7400))
+                client.sendtobroadcast(oscmsg, (broadcast, 7400))
             except OSC.OSCClientError:
                 print 'Failed to send packet'
 
@@ -202,7 +202,7 @@ if __name__ == "__main__":
                 oscmsg.append(float(blob.z))  
                 oscmsg.append(ip)
                 try:
-                    c.sendtobroadcast(oscmsg, (broadcast, 7400))
+                    client.sendtobroadcast(oscmsg, (broadcast, 7400))
                 except OSC.OSCClientError:
                     print 'Failed to send packet'
 
