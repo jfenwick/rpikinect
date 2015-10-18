@@ -72,7 +72,10 @@ if __name__ == "__main__":
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     ip = get_ip()
     client = OSC.OSCClient()
-    server =  OSCServer(listen_address, client)
+
+    if ip != '':
+        server =  OSC.OSCServer((ip,7500))
+
     #c.connect(('192.168.1.129', 7400))   # connect to Max
     #c.connect(('192.168.1.255', 7400))   # connect to Max
     #c.connect(('255.255.255.255', 7400))   # connect to Max
@@ -80,6 +83,8 @@ if __name__ == "__main__":
         while 1:
             if ip == '':
                 ip = get_ip()
+                if ip != '':
+                    server =  OSC.OSCServer((ip, 7500))
             
             t = time.time() - t0
             if t > 1:
@@ -239,8 +244,8 @@ if __name__ == "__main__":
         cv2.destroyAllWindows()
     except KeyboardInterrupt:
         print "\nClosing OSCServer."
-        s.close()
+        sock.close()
         print "Closing OSCClient"
-        c.close()
+        client.close()
         print "Done"
     sys.exit(0)
