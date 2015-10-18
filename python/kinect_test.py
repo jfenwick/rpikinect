@@ -85,6 +85,11 @@ if __name__ == "__main__":
             oscmsg = OSC.OSCMessage()
             oscmsg.setAddress("/heartbeat")
             oscmsg.append(ip)
+            oscmsg.append(current_depth)
+            oscmsg.append(threshold)
+            oscmsg.append(min_area)
+            oscmsg.append(bdelta)
+
             try:
                 ipSplit = ip.split('.')
                 ipSplit.pop()
