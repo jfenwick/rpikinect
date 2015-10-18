@@ -47,6 +47,8 @@ def get_depth():
     return array
 
     #return frame_convert.pretty_depth_cv(freenect.sync_get_depth())
+def msgDepth_handler(self, addr, tags, data, client_address):
+    current_depth = int(data)
 
 iFrame = 1 
 firstFrame = None
@@ -73,8 +75,8 @@ if __name__ == "__main__":
     ip = get_ip()
     client = OSC.OSCClient()
 
-    if ip != '':
-        server =  OSC.OSCServer((ip,7500))
+    #if ip != '':
+    #    server =  OSC.OSCServer((ip,7400))
 
     #c.connect(('192.168.1.129', 7400))   # connect to Max
     #c.connect(('192.168.1.255', 7400))   # connect to Max
@@ -84,7 +86,8 @@ if __name__ == "__main__":
             if ip == '':
                 ip = get_ip()
                 if ip != '':
-                    server =  OSC.OSCServer((ip, 7500))
+                    server =  OSC.OSCServer((ip, 7400))
+                    server.addMsgHandler("/depth", s.msgDepth_handler)
             
             t = time.time() - t0
             if t > 1:
@@ -216,7 +219,7 @@ if __name__ == "__main__":
             fi = open('/home/pi/rpikinect/node/input.txt', 'r')
             try:
                 params = json.load(fi)
-                current_depth = int(params['start_depth'])
+                #current_depth = int(params['start_depth'])
                 threshold = int(params['end_depth'])
                 min_area = int(params['min_area'])
                 bdelta = int(params['blob_delta'])
