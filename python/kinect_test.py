@@ -199,14 +199,14 @@ if __name__ == "__main__":
                 oscmsg.append(float(blob.y) / 480.0)
                 oscmsg.append(float(blob.w) / 640.0)
                 oscmsg.append(float(blob.h) / 480.0)
-		        oscmsg.append(float(blob.z))  
+                oscmsg.append(float(blob.z))  
                 oscmsg.append(ip)
                 try:
                     c.sendtobroadcast(oscmsg, (broadcast, 7400))
                 except OSC.OSCClientError:
                     print 'Failed to send packet'
 
-        fi = open('/home/pi/web/input.txt', 'r')
+        fi = open('/home/pi/rpikinect/node/input.txt', 'r')
         try:
             params = json.load(fi)
             current_depth = int(params['start_depth'])
