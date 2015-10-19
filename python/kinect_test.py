@@ -47,8 +47,11 @@ def get_depth():
     return array
 
     #return frame_convert.pretty_depth_cv(freenect.sync_get_depth())
-def msgDepth_handler(self, addr, tags, data, client_address):
-    current_depth = int(data)
+
+def depth_handler(addr, tags, data, source):
+    print "Got an update"
+    print data
+    #current_depth = int(data)
 
 iFrame = 1 
 firstFrame = None
@@ -75,8 +78,12 @@ if __name__ == "__main__":
     ip = get_ip()
     client = OSC.OSCClient()
 
-    #if ip != '':
-    #    server =  OSC.OSCServer((ip,7400))
+    if ip != '':
+        print 'IP1:'
+        print ip
+        server =  OSC.OSCServer((ip,7400))
+        server.addMsgHandler("/depth", depth_handler)
+        server.serve_forever()
 
     #c.connect(('192.168.1.129', 7400))   # connect to Max
     #c.connect(('192.168.1.255', 7400))   # connect to Max
@@ -85,9 +92,12 @@ if __name__ == "__main__":
         while 1:
             if ip == '':
                 ip = get_ip()
+                print "IP2:"
+                print ip
                 if ip != '':
                     server =  OSC.OSCServer((ip, 7400))
-                    server.addMsgHandler("/depth", s.msgDepth_handler)
+                    server.addMsgHandler("/depth", depth_handler)
+                    server.serve_forever()
             
             t = time.time() - t0
             if t > 1:
