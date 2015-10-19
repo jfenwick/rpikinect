@@ -111,8 +111,12 @@ if __name__ == "__main__":
                 #data, addr = sck.recvfrom(1024)
                 #data, addr = sck.recvfrom(1)
                 try:
-                    data = sck.recv(1024)
-                    print OSC.decodeOSC(data)
+                    data = OSC.decodeOSC(sck.recv(1024))
+                    #print OSC.decodeOSC(data)
+                    current_depth = data[2]
+                    threshold = data[3]
+                    min_area = data[4]
+                    bdelta = data[5]
                 except socket.error:
                    pass
             
@@ -246,10 +250,10 @@ if __name__ == "__main__":
             fi = open('/home/pi/rpikinect/node/input.txt', 'r')
             try:
                 params = json.load(fi)
-                current_depth = int(params['start_depth'])
-                threshold = int(params['end_depth'])
-                min_area = int(params['min_area'])
-                bdelta = int(params['blob_delta'])
+                #current_depth = int(params['start_depth'])
+                #threshold = int(params['end_depth'])
+                #min_area = int(params['min_area'])
+                #bdelta = int(params['blob_delta'])
             except ValueError:
                 pass
             fi.close()
