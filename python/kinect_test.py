@@ -78,12 +78,12 @@ if __name__ == "__main__":
     ip = get_ip()
     client = OSC.OSCClient()
 
-    if ip != '':
-        print 'IP1:'
-        print ip
-        server =  OSC.OSCServer((ip,7400))
-        server.addMsgHandler("/depth", depth_handler)
-        server.serve_forever()
+    #if ip != '':
+    #    print 'IP1:'
+    #    print ip
+    #    server =  OSC.OSCServer((ip,7400))
+    #    server.addMsgHandler("/depth", depth_handler)
+    #    server.serve_forever()
 
     #c.connect(('192.168.1.129', 7400))   # connect to Max
     #c.connect(('192.168.1.255', 7400))   # connect to Max
@@ -92,12 +92,12 @@ if __name__ == "__main__":
         while 1:
             if ip == '':
                 ip = get_ip()
-                print "IP2:"
-                print ip
-                if ip != '':
-                    server =  OSC.OSCServer((ip, 7400))
-                    server.addMsgHandler("/depth", depth_handler)
-                    server.serve_forever()
+                #print "IP2:"
+                #print ip
+                #if ip != '':
+                #    server =  OSC.OSCServer((ip, 7400))
+                #    server.addMsgHandler("/depth", depth_handler)
+                #    server.serve_forever()
             
             t = time.time() - t0
             if t > 1:
@@ -229,7 +229,7 @@ if __name__ == "__main__":
             fi = open('/home/pi/rpikinect/node/input.txt', 'r')
             try:
                 params = json.load(fi)
-                #current_depth = int(params['start_depth'])
+                current_depth = int(params['start_depth'])
                 threshold = int(params['end_depth'])
                 min_area = int(params['min_area'])
                 bdelta = int(params['blob_delta'])
