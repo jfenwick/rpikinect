@@ -1,2 +1,2 @@
-Version 0.1
-The original working version that has a node webapp that changes variables through a file that Python reads.
+Runs a Kinect on a Raspberry Pi and then tracks blobs using OpenCV, which is then broadcast over the network over OSC.
+Parameters to control the system are controlled through the Node based web interface.
