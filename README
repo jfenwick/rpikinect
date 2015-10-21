@@ -1,2 +1,2 @@
-Version 0.2
-This release rewrites the Python to receive OSC signals for control of the parameters.
+Version 0.1
+The original working version that has a node webapp that changes variables through a file that Python reads.
