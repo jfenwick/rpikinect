@@ -75,10 +75,16 @@ def get_ip():
 if __name__ == "__main__":
     t0 = time.time()
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sck = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sck.setblocking(False)
     ip = get_ip()
     client = OSC.OSCClient()
 
-    #if ip != '':
+    if ip != '':
+        print ip
+        #sock.bind((str(ip), 7401))
+        #setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        sck.bind(("", 7401))
     #    print 'IP1:'
     #    print ip
     #    server =  OSC.OSCServer((ip,7400))
@@ -92,12 +98,27 @@ if __name__ == "__main__":
         while 1:
             if ip == '':
                 ip = get_ip()
+                if ip != '':
+                    pass
+                    #sock.bind((str(ip), 7401))
                 #print "IP2:"
                 #print ip
                 #if ip != '':
                 #    server =  OSC.OSCServer((ip, 7400))
                 #    server.addMsgHandler("/depth", depth_handler)
                 #    server.serve_forever()
+            if ip != '':
+                #data, addr = sck.recvfrom(1024)
+                #data, addr = sck.recvfrom(1)
+                try:
+                    data = OSC.decodeOSC(sck.recv(1024))
+                    #print OSC.decodeOSC(data)
+                    current_depth = data[2]
+                    threshold = data[3]
+                    min_area = data[4]
+                    bdelta = data[5]
+                except socket.error:
+                   pass
             
             t = time.time() - t0
             if t > 1:
@@ -229,10 +250,10 @@ if __name__ == "__main__":
             fi = open('/home/pi/rpikinect/node/input.txt', 'r')
             try:
                 params = json.load(fi)
-                current_depth = int(params['start_depth'])
-                threshold = int(params['end_depth'])
-                min_area = int(params['min_area'])
-                bdelta = int(params['blob_delta'])
+                #current_depth = int(params['start_depth'])
+                #threshold = int(params['end_depth'])
+                #min_area = int(params['min_area'])
+                #bdelta = int(params['blob_delta'])
             except ValueError:
                 pass
             fi.close()
