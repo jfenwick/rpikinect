@@ -1,0 +1,2 @@
+Version 0.2
+This release rewrites the Python to receive OSC signals for control of the parameters.
