@@ -1,4 +1,2 @@
 Runs a Kinect on a Raspberry Pi and then tracks blobs using OpenCV, which is then broadcast over the network over OSC.
 Parameters to control the system are controlled through the Node based web interface.
-
-This release uses a text file and an image to share parameters between Python and the Node server.
